@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Veterinario.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    especialidad:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Veterinario',
