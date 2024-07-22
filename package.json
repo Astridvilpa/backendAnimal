@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/app.js"
+    "dev": "nodemon ./src/app.js",
+    "migrate": "sequelize-cli db:migrate",
+    "undo": "sequelize-cli db:migrate:undo",
+    "seed": "sequelize-cli db:seed:all"
   },
   "author": "",
   "license": "ISC",
