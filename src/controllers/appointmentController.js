@@ -1,5 +1,5 @@
 const appointmentController = {}
-const { Appointment } = require("../models/index");
+const { Appointment, Service, Pet, Veterinario } = require("../models/index");
 
 appointmentController.create = async (req, res) => {
     const { type, date, Service_id, Pet_id, Veterinario_id } = req.body;
@@ -23,7 +23,24 @@ appointmentController.create = async (req, res) => {
   appointmentController.getAll = async (req, res) => {
     try {
       const appointments = await Appointment.findAll({
-        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+            {
+              model: Service,
+              as: "service",
+              attributes: ['name'],
+            },
+            {
+              model: Pet,
+              as: "pet",
+              attributes: ['name', 'type'],
+            },
+            {
+              model: Veterinario,
+              as: "veterinario",
+              attributes: ['name'],
+            },
+          ],
+        attributes: { exclude: ["createdAt", "updatedAt", "Service_id", "Pet_id", "Veterinario_id" ] },
       });
       res.status(200).json({
         success: true,

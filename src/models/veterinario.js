@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Veterinario.hasMany(models.Appointment, { foreignKey: 'Veterinario_id' });
+      Veterinario.hasMany(models.Appointment, { foreignKey: 'Veterinario_id', as: 'appointments' });
     }
   }
   Veterinario.init({
