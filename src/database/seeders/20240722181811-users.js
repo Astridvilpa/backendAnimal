@@ -1,4 +1,6 @@
 "use strict";
+const bcrypt = require("bcrypt");
+const plainPassword = "12345678";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -20,7 +22,7 @@ module.exports = {
           name: "Juan",
           lastName: "Pérez",
           email:"juan.perez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:1,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -30,7 +32,7 @@ module.exports = {
           name: "María ",
           lastName: "López",
           email:"maria.lopez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -40,7 +42,7 @@ module.exports = {
           name: "Carlos",
           lastName: "Sánchez",
           email:"carlos.sanchez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -50,7 +52,7 @@ module.exports = {
           name: "Ana",
           lastName: "Martínez",
           email:"ana.martinez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -60,7 +62,7 @@ module.exports = {
           name: "José",
           lastName: "Gómez",
           email:"jose.gomez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -70,7 +72,7 @@ module.exports = {
           name: "Laura",
           lastName: "Díaz",
           email:"laura.diaz@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -80,7 +82,7 @@ module.exports = {
           name: "Luis",
           lastName: "Fernández",
           email:"luis.fernandez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -90,7 +92,7 @@ module.exports = {
           name: "Carmen",
           lastName: "Rodríguez",
           email:"carmen.rodriguez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -100,7 +102,7 @@ module.exports = {
           name: "Miguel",
           lastName: "Ramírez",
           email:"miguel.ramirez@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -110,7 +112,7 @@ module.exports = {
           name: "Elena",
           lastName: "García",
           email:"elena.garcia@example.com",
-          password: "123456789",
+          password: bcrypt.hashSync(plainPassword, 10),
           role_id:2,
           createdAt: new Date(),
           updatedAt:new Date()

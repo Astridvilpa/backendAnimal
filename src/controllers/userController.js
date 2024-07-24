@@ -161,7 +161,7 @@ userController.create =  async (req, res) => {
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "Error retrieving user",
+        message: "Error al recuperar usuario",
         error: error.message,
       });
     }
@@ -191,12 +191,12 @@ userController.create =  async (req, res) => {
   
       res.status(200).json({
         success: true,
-        message: "User update successfully",
+        message: "Usuario modificado correctamente",
       });
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "Error updating Users",
+        message: "Error al modificar usuario",
         error: error.message,
       });
     }
