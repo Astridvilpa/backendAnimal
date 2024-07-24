@@ -1,4 +1,5 @@
 const userController = {}
+const bcrypt = require("bcrypt")
 const { User } = require("../models/index");
 
 userController.create =  async (req, res) => {
@@ -70,19 +71,43 @@ userController.create =  async (req, res) => {
 
   userController.update = async (req, res) => {
     const userId = req.params.id;
-    const userData = req.body;
+    const { password, role_id, ...restUserData } = req.body;
   
-    await User.update(userData, {
-      where: {
-        id: userId,
-      },
-    });
+    try {
+      const userToUpdate = await User.findByPk(userId);
   
-    res.status(200).json({
-      success: true,
-      message: "User updated successfully",
-    });
-  }
+      if (!userToUpdate) {
+        res.status(404).json({
+          success: true,
+          message: "User not found",
+        });
+        return;
+      }
+  
+      if (password) {
+        const hashedPassword = bcrypt.hashSync(password, 10);
+        userToUpdate.password = hashedPassword;
+      }
+  
+      userToUpdate.set({
+        ...userToUpdate,
+        ...restUserData,
+      });
+  
+      await userToUpdate.save();
+  
+      res.status(200).json({
+        success: true,
+        message: "User update successfully",
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Error updating Users",
+        error: error.message,
+      });
+    }
+  };
 
   userController.delete = async (req, res) => {
     const userId = req.params.id;
@@ -115,5 +140,66 @@ userController.create =  async (req, res) => {
     }
   };
 
+
+  userController.getUserProfile = async (req, res) => {
+    const userId = req.tokenData.userId;
+  
+    try {
+      const user = await User.findByPk(userId, {
+        attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+        include: {
+          model: Role,
+          as: 'role',
+          attributes: ['name']
+        }
+      });
+  
+      res.status(200).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Error retrieving user",
+        error: error.message,
+      });
+    }
+  };
+  
+
+  userController.updateUserProfile = async (req, res) => {
+    const userId = req.tokenData.userId;
+    const { password, role_id, ...restUserData } = req.body;
+  
+    try {
+      const userToUpdate = await User.findByPk(userId);
+  
+      
+  
+      if (password) {
+        const hashedPassword = bcrypt.hashSync(password, 10);
+        userToUpdate.password = hashedPassword;
+      }
+  
+      userToUpdate.set({
+        ...userToUpdate,
+        ...restUserData,
+      });
+  
+      await userToUpdate.save();
+  
+      res.status(200).json({
+        success: true,
+        message: "User update successfully",
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Error updating Users",
+        error: error.message,
+      });
+    }
+  };
 
 module.exports = userController

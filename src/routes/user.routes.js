@@ -4,8 +4,8 @@ const ctrl = require("../controllers/userController")
 
 // user routes
 
-router.get("/profile", auth, crtl.getUserProfile);
-router.put("/profile", auth, crtl.updateUserProfile);
+router.get("/profile",  ctrl.getUserProfile);
+router.put("/profile", ctrl.updateUserProfile);
 
 
 
@@ -17,6 +17,6 @@ router.get("/", ctrl.getAll );
 router.get("/:id", ctrl.getById);
 router.put("/:id", ctrl.update );
 router.delete("/:id", ctrl.delete);
-router.get("/:id/pets", ctrl.getUserPets);
+// router.get("/:id/pets", ctrl.getUserPets);
 
 module.exports = router
