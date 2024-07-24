@@ -1,8 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./database/db");
-const { User } = require("./models/index");
+
 const { where } = require("sequelize");
+const userController = require("./controllers/userController")
 
 dotenv.config();
 
@@ -20,83 +21,11 @@ app.get("/api/healthy", (req, res) => {
 });
 
 // CRUD users
-// create
-app.post("/api/users", async (req, res) => {
-  const { name, lastName, email, password, role_id } = req.body;
-
-  await User.create({
-    name: name,
-    lastName: lastName,
-    email: email,
-    password: password,
-    role_id: role_id || 2,
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "User created successfully",
-  });
-});
-
-// Get all
-app.get("/api/users", async (req, res) => {
-  const users = await User.findAll();
-
-  res.status(200).json({
-    success: true,
-    message: "Users retreived successfully",
-    data: users,
-  });
-});
-
-// get by id
-
-app.get("/api/users/:id", async (req, res) => {
-  const userId = req.params.id;
-
-  const user = await User.findByPk(userId);
-
-  res.status(200).json({
-    success: true,
-    message: "User retreived successfully",
-    data: user,
-  });
-});
-
-// update
-
-app.put("/api/users/:id", async (req, res) => {
-  const userId = req.params.id;
-  const userData = req.body;
-
-  await User.update(userData, {
-    where: {
-      id: userId,
-    },
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "User updated successfully",
-  });
-});
-
-// delete
-
-app.delete("/api/users/:id", async (req, res) => {
-  const userId = req.params.id;
-
-  await User.destroy({
-    where: {
-      id: userId,
-    },
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "User delete successfully",
-  });
-});
+app.post("/api/users", userController.create);
+app.get("/api/users", userController.getAll );
+app.get("/api/users/:id", userController.getById);
+app.put("/api/users/:id", userController.update );
+app.delete("/api/users/:id", userController.delete);
 
 sequelize
   .authenticate()
