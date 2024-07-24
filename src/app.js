@@ -1,9 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./database/db");
-
 const { where } = require("sequelize");
 const userController = require("./controllers/userController")
+const serviceController = require("./controllers/serviceController")
 
 dotenv.config();
 
@@ -26,6 +26,17 @@ app.get("/api/users", userController.getAll );
 app.get("/api/users/:id", userController.getById);
 app.put("/api/users/:id", userController.update );
 app.delete("/api/users/:id", userController.delete);
+
+
+
+
+// CRUD servicios
+app.post("/api/services", serviceController.create);
+app.get("/api/services", serviceController.getAll );
+app.get("/api/services/:id", serviceController.getById);
+app.put("/api/services/:id", serviceController.update );
+app.delete("/api/services/:id", serviceController.delete);
+
 
 sequelize
   .authenticate()
