@@ -6,6 +6,7 @@ const userController = require("./controllers/userController")
 const serviceController = require("./controllers/serviceController")
 const petController = require("./controllers/petController")
 const veterinarioController = require("./controllers/veterinarioController")
+const appointmentController = require("./controllers/appointmentController")
 
 dotenv.config();
 
@@ -56,11 +57,11 @@ app.put("/api/veterinarios/:id", veterinarioController.update );
 app.delete("/api/veterinarios/:id", veterinarioController.delete);
 
 // CRUD citas
-// app.post("/api/appointments", appointmentController.create);
+app.post("/api/appointments", appointmentController.create);
 app.get("/api/appointments", appointmentController.getAll );
-// app.get("/api/appointments/:id", appointmentController.getById);
-// app.put("/api/appointments/:id", appointmentController.update );
-// app.delete("/api/appointments/:id", appointmentController.delete);
+app.get("/api/appointments/:id", appointmentController.getById);
+app.put("/api/appointments/:id", appointmentController.update );
+app.delete("/api/appointments/:id", appointmentController.delete);
 
 
 
