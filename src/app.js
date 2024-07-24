@@ -5,6 +5,7 @@ const { where } = require("sequelize");
 const userController = require("./controllers/userController")
 const serviceController = require("./controllers/serviceController")
 const petController = require("./controllers/petController")
+const veterinarioController = require("./controllers/veterinarioController")
 
 dotenv.config();
 
@@ -45,6 +46,22 @@ app.get("/api/pets", petController.getAll );
 app.get("/api/pets/:id", petController.getById);
 app.put("/api/pets/:id", petController.update );
 app.delete("/api/pets/:id", petController.delete);
+
+
+// CRUD veterinario
+app.post("/api/veterinarios", veterinarioController.create);
+app.get("/api/veterinarios", veterinarioController.getAll );
+app.get("/api/veterinarios/:id", veterinarioController.getById);
+app.put("/api/veterinarios/:id", veterinarioController.update );
+app.delete("/api/veterinarios/:id", veterinarioController.delete);
+
+// CRUD citas
+// app.post("/api/appointments", appointmentController.create);
+app.get("/api/appointments", appointmentController.getAll );
+// app.get("/api/appointments/:id", appointmentController.getById);
+// app.put("/api/appointments/:id", appointmentController.update );
+// app.delete("/api/appointments/:id", appointmentController.delete);
+
 
 
 sequelize
