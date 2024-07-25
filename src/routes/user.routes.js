@@ -17,6 +17,6 @@ router.get("/", ctrl.getAll );
 router.get("/:id", ctrl.getById);
 router.put("/:id", ctrl.update );
 router.delete("/:id", ctrl.delete);
-// router.get("/:id/pets", ctrl.getUserPets);
+router.get("/:id/pets", ctrl.getUserPets);
 
 module.exports = router

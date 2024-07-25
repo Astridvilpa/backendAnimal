@@ -14,6 +14,7 @@ router.delete("/:id", ctrl.delete);
 
 router.get("/", ctrl.getAll );
 router.get("/:id", ctrl.getById);
+router.get("/:id/appointments", ctrl.getPetAppointments);
 
 
 

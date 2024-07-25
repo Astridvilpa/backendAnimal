@@ -1,5 +1,5 @@
 const petController = {};
-const { Pet } = require("../models/index");
+const { Pet, Appointment, Service, Veterinario } = require("../models/index");
 
 petController.create = async (req, res) => {
   const { name, type, user_id } = req.body;
@@ -121,5 +121,54 @@ petController.delete = async (req, res) => {
     });
   }
 };
+
+
+petController.getPetAppointments = async (req, res) => {
+  const petId = req.params.id;
+
+  try {
+    const pet = await Pet.findByPk(petId, {
+      include: [
+        {
+          model: Appointment,
+          as: 'appointments',
+          include: [
+            {
+              model: Service,
+              as: 'service',
+              attributes: ['name'],
+            },
+            {
+              model: Veterinario,
+              as: 'veterinario',
+              attributes: ['name'],
+            },
+          ],
+          attributes: { exclude: ['createdAt', 'updatedAt', 'Service_id', 'Pet_id', 'Veterinario_id', 'type' ] },
+        },
+      ],
+      attributes: ['id', 'name', 'type'],
+    });
+
+    if (!pet) {
+      return res.status(404).json({
+        success: false,
+        message: "Mascota no encontrada",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: pet,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al recuperar las citas de la mascota",
+      error: error.message,
+    });
+  }
+};
+
 
 module.exports = petController;
