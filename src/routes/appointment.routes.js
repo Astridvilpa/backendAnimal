@@ -1,18 +1,14 @@
-const express = require('express')
-const router = express.Router()
-const ctrl = require("../controllers/appointmentController")
+const express = require('express');
+const router = express.Router();
+const ctrl = require("../controllers/appointmentController");
 
-
-
-// public
+// Public routes
 router.post("/", ctrl.create);
-router.get("/", ctrl.getById);
 
-
-
-// protect
-router.get("/", ctrl.getAll );
-router.put("/", ctrl.update );
+// Protected routes
+router.get("/", ctrl.getAll);
+router.get("/:id", ctrl.getById);
+router.put("/:id", ctrl.update);
 router.delete("/:id", ctrl.delete);
 
-module.exports = router
+module.exports = router;
