@@ -38,64 +38,64 @@ authController.register = async (req, res) => {
   }
 };
 
-// authController.login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
+authController.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-//     if (!email || !password) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Credenciales incorrectas",
-//       });
-//     }
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Credenciales incorrectas",
+      });
+    }
 
-//     const user = await User.findOne({
-//       include: [
-//         {
-//           model: Role,
-//           as: "role",
-//         },
-//       ],
-//       where: {
-//         email,
-//       },
-//     });
+    const user = await User.findOne({
+      include: [
+        {
+          model: Role,
+          as: "role",
+        },
+      ],
+      where: {
+        email,
+      },
+    });
 
-//     if (!user) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Credenciales incorrectas",
-//       });
-//     }
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Credenciales incorrectas",
+      });
+    }
 
-//     const isPasswordValid = bcrypt.compareSync(password, user.password);
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
 
-//     if (!isPasswordValid) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Credenciales incorrectas",
-//       });
-//     }
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        success: false,
+        message: "Credenciales incorrectas",
+      });
+    }
 
-//     const tokenPayLoad = {
-//       userId: user.id,
-//       userRoleName: user.role.name,
-//     };
+    const tokenPayLoad = {
+      userId: user.id,
+      userRoleName: user.role.name,
+    };
 
-//     const token = jwt.sign(tokenPayLoad, process.env.JWT_SECRET_KEY, {expiresIn: '3h'})
+    const token = jwt.sign(tokenPayLoad, process.env.JWT_SECRET_KEY, {expiresIn: '3h'})
 
-//     res.status(200).json({
-//       success: true,
-//       message: "Login correcto",
-//       token,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Login failed",
-//       error: error.message,
-//     });
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      message: "Login correcto",
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Login incorrecto",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = authController;

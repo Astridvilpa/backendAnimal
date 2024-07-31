@@ -4,7 +4,7 @@ const crtl = require("../controllers/authController");
 
 
 router.post('/register', crtl.register);
-// router.post('/login', crtl.login);
+router.post('/login', crtl.login);
 
 
 module.exports = router;
