@@ -2,22 +2,6 @@ const userController = {};
 const bcrypt = require("bcrypt");
 const { User, Pet } = require("../models/index");
 
-userController.create = async (req, res) => {
-  const { name, lastName, email, password, role_id } = req.body;
-
-  await User.create({
-    name: name,
-    lastName: lastName,
-    email: email,
-    password: password,
-    role_id: role_id || 2,
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "Usuario creado con èxito",
-  });
-};
 
 userController.getAll = async (req, res) => {
   try {

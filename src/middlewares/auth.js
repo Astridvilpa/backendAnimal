@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
   if (!token)
     return res.status(401).json({
       success: true,
-      message: "Unauthorized",
+      message: "Desautorizado",
     });
 
   try {
@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
   } catch (error) {
     res.status(401).json({
       success: true,
-      message: "Invalid token provided",
+      message: "Token no válido",
     });
   }
 };
