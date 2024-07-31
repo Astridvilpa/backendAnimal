@@ -10,7 +10,7 @@ module.exports = (...allowedRoles) => {
   
       res.status(403).json({
         success: true,
-        message: "Unauthorized access",
+        message: "Acceso no autorizado",
       });
     };
   };
