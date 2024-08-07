@@ -15,3 +15,4 @@ router.put("/:id",auth, authorize("super_admin"), ctrl.update );
 router.delete("/:id",auth, authorize("super_admin"), ctrl.delete);
 
 module.exports = router
+

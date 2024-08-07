@@ -1,5 +1,5 @@
 const petController = {};
-const { Pet, Appointment, Service, Veterinario } = require("../models/index");
+const { Appointment, Service, Pet, Veterinario, User, Role  } = require("../models/index");
 
 petController.create = async (req, res) => {
   const { name, type, user_id } = req.body;
@@ -172,3 +172,5 @@ petController.getPetAppointments = async (req, res) => {
 
 
 module.exports = petController;
+
+

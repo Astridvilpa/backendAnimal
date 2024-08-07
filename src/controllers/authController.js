@@ -1,6 +1,7 @@
-const { User } = require("../models");
+const { where } = require("sequelize");
+const { User, Role } = require("../models");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const authController = {};
 
@@ -8,41 +9,30 @@ authController.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    console.log("Datos recibidos:", { name, email, password });
-
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Campos de registro no válidos",
+        message: 'Invalid registration fields',
       });
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const newUser = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
-      role_id: 2,
+      role_id: 2, // Asegúrate de que este campo está correcto
     });
-
-    const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 
     res.status(200).json({
       success: true,
-      message: "Usuario registrado correctamente",
-      token: token,
+      message: 'User registered successfully',
     });
   } catch (error) {
-    console.error("Error al registrar usuario:", error);
-    if (error.name === 'SequelizeValidationError') {
-      error.errors.forEach((e) => {
-        console.error(e.message);
-      });
-    }
     res.status(500).json({
       success: false,
-      message: "Error al registrar usuario",
+      message: 'Error registering user',
       error: error.message,
     });
   }
@@ -55,7 +45,7 @@ authController.login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Credenciales incorrectas",
+        message: "Bad credentials",
       });
     }
 
@@ -74,7 +64,7 @@ authController.login = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "Credenciales incorrectas",
+        message: "Bad credentials",
       });
     }
 
@@ -83,7 +73,7 @@ authController.login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({
         success: false,
-        message: "Credenciales incorrectas",
+        message: "Bad credentials",
       });
     }
 
@@ -92,20 +82,22 @@ authController.login = async (req, res) => {
       userRoleName: user.role.name,
     };
 
-    const token = jwt.sign(tokenPayLoad, process.env.JWT_SECRET_KEY, { expiresIn: '3h' });
+    const token = jwt.sign(tokenPayLoad, process.env.JWT_SECRET_KEY, {expiresIn: '3h'})
 
     res.status(200).json({
       success: true,
-      message: "Login correcto",
+      message: "login successful",
       token,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Login incorrecto",
+      message: "Login failed",
       error: error.message,
     });
   }
 };
 
+
 module.exports = authController;
+

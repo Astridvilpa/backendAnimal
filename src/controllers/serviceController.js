@@ -1,5 +1,5 @@
 const serviceController = {}
-const { Service } = require("../models/index");
+const { Appointment, Service, Pet, Veterinario, User, Role  } = require("../models/index");
 
 serviceController.create = async (req, res) => {
     const { name } = req.body;
@@ -134,3 +134,4 @@ serviceController.create = async (req, res) => {
   };
 
 module.exports = serviceController
+

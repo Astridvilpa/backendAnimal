@@ -1,5 +1,5 @@
 const veterinarioController = {}
-const { Veterinario } = require("../models/index");
+const { Appointment, Service, Pet, Veterinario, User, Role } = require("../models/index");
 
 
 
@@ -128,3 +128,4 @@ veterinarioController.getAll = async (req, res) => {
   };
 
 module.exports = veterinarioController
+

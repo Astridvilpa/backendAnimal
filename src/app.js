@@ -38,3 +38,5 @@ sequelize
   .catch(() => {
     console.error("Error authenticating database:");
   });
+
+  

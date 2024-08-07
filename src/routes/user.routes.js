@@ -22,3 +22,4 @@ router.delete("/:id", auth,authorize("super_admin"), ctrl.delete);
 router.get("/:id/pets", auth, ctrl.getUserPets);
 
 module.exports = router
+

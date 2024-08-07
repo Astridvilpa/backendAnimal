@@ -39,3 +39,5 @@ module.exports = {
     await queryInterface.dropTable('pets');
   }
 };
+
+

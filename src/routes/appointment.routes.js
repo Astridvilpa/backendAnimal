@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const ctrl = require("../controllers/appointmentController");
+const appointmentController = require("../controllers/appointmentController");
 const auth = require("../middlewares/auth")
 const authorize = require("../middlewares/authorize")
 
-// Public routes
-router.post("/",auth, ctrl.create);
+// Rutas públicas
+router.post("/", auth, appointmentController.create);
 
-// Protected routes
-router.get("/",auth,authorize("super_admin"), ctrl.getAll);
-router.get("/:id",auth, ctrl.getById);
-router.put("/:id",auth, ctrl.update);
-router.delete("/:id",auth, ctrl.delete);
+// Rutas protegidas
+router.get("/", auth, authorize("super_admin"), appointmentController.getAll);
+router.get("/:id", auth, appointmentController.getById);
+router.put("/:id", auth, appointmentController.update);
+router.delete("/:id", auth, appointmentController.delete);
 
 module.exports = router;
+
+

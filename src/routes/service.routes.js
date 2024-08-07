@@ -20,3 +20,4 @@ router.delete("/:id",auth, authorize("super_admin"), ctrl.delete);
 
 
 module.exports = router
+

@@ -1,5 +1,5 @@
 const appointmentController = {}
-const { Appointment, Service, Pet, Veterinario } = require("../models/index");
+const { Appointment, Service, Pet, Veterinario, User, Role } = require("../models");
 
 appointmentController.create = async (req, res) => {
     const { type, date, Service_id, Pet_id, Veterinario_id } = req.body;
@@ -20,7 +20,7 @@ appointmentController.create = async (req, res) => {
     }
   };
 
-  appointmentController.getAll = async (req, res) => {
+appointmentController.getAll = async (req, res) => {
     try {
       const appointments = await Appointment.findAll({
         include: [
@@ -56,8 +56,7 @@ appointmentController.create = async (req, res) => {
     }
   };
 
-
-  appointmentController.getById = async (req, res) => {
+appointmentController.getById = async (req, res) => {
     const appointmentId = req.params.id;
   
     try {
@@ -84,7 +83,7 @@ appointmentController.create = async (req, res) => {
     }
   };
 
-  appointmentController.update = async (req, res) => {
+appointmentController.update = async (req, res) => {
     const appointmentId = req.params.id;
     const appointmentData = req.body;
   
@@ -108,8 +107,7 @@ appointmentController.create = async (req, res) => {
     }
   };
 
-  
-  appointmentController.delete = async (req, res) => {
+appointmentController.delete = async (req, res) => {
     const appointmentId = req.params.id;
   
     try {
@@ -140,5 +138,5 @@ appointmentController.create = async (req, res) => {
     }
   };
 
+module.exports = appointmentController;
 
-module.exports = appointmentController

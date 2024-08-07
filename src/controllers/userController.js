@@ -1,6 +1,6 @@
 const userController = {};
 const bcrypt = require("bcrypt");
-const { User, Pet } = require("../models/index");
+const { Appointment, Service, Pet, Veterinario, User, Role  } = require("../models/index");
 
 
 userController.getAll = async (req, res) => {
@@ -148,6 +148,7 @@ userController.getUserProfile = async (req, res) => {
   }
 };
 
+
 userController.updateUserProfile = async (req, res) => {
   const userId = req.tokenData.userId;
   const { password, role_id, ...restUserData } = req.body;
@@ -219,3 +220,5 @@ userController.getUserPets = async (req, res) => {
 };
 
 module.exports = userController;
+
+
