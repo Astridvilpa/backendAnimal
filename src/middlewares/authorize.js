@@ -23,3 +23,4 @@ const allowUserOrAdmin = () => {
 };
 
 module.exports = { authorize, allowUserOrAdmin };
+
