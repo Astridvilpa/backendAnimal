@@ -1,27 +1,35 @@
-const appointmentController = {};
-const { Appointment, Service, Pet, Veterinario, User, Role } = require("../models");
+const { Appointment, Service, Pet, Veterinario, User } = require("../models");
 
-appointmentController.create = async (req, res) => {
-  const { type, date, Service_id, Pet_id, Veterinario_id, user_id } = req.body;
-
+const createAppointment = async (req, res) => {
   try {
-    const appointment = await Appointment.create({ type, date, Service_id, Pet_id, Veterinario_id, user_id });
+    const { type, date, service_id, pet_id, veterinario_id } = req.body;
+    const user_id = req.tokenData.userId;
+
+    if (!type || !date || !service_id || !pet_id || !veterinario_id || !user_id) {
+      console.log('Campos recibidos:', { type, date, service_id, pet_id, veterinario_id, user_id });
+      return res.status(400).json({
+        success: false,
+        message: 'Faltan campos requeridos: type, date, service_id, pet_id y veterinario_id son necesarios',
+      });
+    }
+
+    const appointment = await Appointment.create({ type, date, service_id, pet_id, veterinario_id, user_id });
     res.status(201).json({
       success: true,
-      message: "Cita creada exitosamente",
+      message: 'Cita creada exitosamente',
       data: appointment,
     });
   } catch (error) {
-    console.error("Error creating appointment:", error);
+    console.error('Error al crear la cita:', error);
     res.status(500).json({
       success: false,
-      message: "Error al crear cita",
+      message: 'Error al crear cita',
       error: error.message,
     });
   }
 };
 
-appointmentController.getAll = async (req, res) => {
+const getAll = async (req, res) => {
   try {
     const appointments = await Appointment.findAll({
       include: [
@@ -64,7 +72,7 @@ appointmentController.getAll = async (req, res) => {
   }
 };
 
-appointmentController.getById = async (req, res) => {
+const getById = async (req, res) => {
   const appointmentId = req.params.id;
 
   try {
@@ -114,7 +122,7 @@ appointmentController.getById = async (req, res) => {
   }
 };
 
-appointmentController.update = async (req, res) => {
+const update = async (req, res) => {
   const appointmentId = req.params.id;
   const appointmentData = req.body;
 
@@ -139,7 +147,7 @@ appointmentController.update = async (req, res) => {
   }
 };
 
-appointmentController.delete = async (req, res) => {
+const deleteAppointment = async (req, res) => {
   const appointmentId = req.params.id;
 
   try {
@@ -171,7 +179,7 @@ appointmentController.delete = async (req, res) => {
   }
 };
 
-appointmentController.getUserAppointments = async (req, res) => {
+const getUserAppointments = async (req, res) => {
   const userId = req.tokenData.userId;
 
   try {
@@ -218,4 +226,11 @@ appointmentController.getUserAppointments = async (req, res) => {
   }
 };
 
-module.exports = appointmentController;
+module.exports = {
+  createAppointment,
+  getAll,
+  getById,
+  update,
+  deleteAppointment,
+  getUserAppointments,
+};
