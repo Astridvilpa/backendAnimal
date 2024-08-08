@@ -2,12 +2,13 @@ const petController = {};
 const { Appointment, Service, Pet, Veterinario, User, Role  } = require("../models/index");
 
 petController.create = async (req, res) => {
-  const { name, type, user_id } = req.body;
+  const { name, type } = req.body;
+  const user_id = req.tokenData.userId; // Usar el user_id del token
 
-  if (!name || !type || !user_id) {
+  if (!name || !type) {
     return res.status(400).json({
       success: false,
-      message: "Faltan campos requeridos: name, type y user_id son necesarios",
+      message: "Faltan campos requeridos: name y type son necesarios",
     });
   }
 
@@ -28,19 +29,24 @@ petController.create = async (req, res) => {
 };
 
 petController.getAll = async (req, res) => {
+  const userId = req.tokenData.userId;
+  const userRole = req.tokenData.userRoleName;
+
   try {
+    const whereClause = userRole === "super_admin" ? {} : { user_id: userId };
     const pets = await Pet.findAll({
+      where: whereClause,
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     res.status(200).json({
       success: true,
-      message: "Mascota creada exitosamente",
+      message: "Mascotas recuperadas exitosamente",
       data: pets,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error al recuperar mascota",
+      message: "Error al recuperar mascotas",
       error: error.message,
     });
   }
@@ -59,7 +65,6 @@ petController.getById = async (req, res) => {
         success: true,
         message: "Mascota no encontrada",
       });
-      return;
     }
     res.status(200).json({
       success: true,
@@ -121,7 +126,6 @@ petController.delete = async (req, res) => {
       message: "Mascota eliminada exitosamente",
     });
   } catch (error) {
-    console.error("Error al eliminar mascota:", error); // Agrega este console.log para detalles
     res.status(500).json({
       success: false,
       message: "Error al eliminar mascota",
@@ -129,7 +133,6 @@ petController.delete = async (req, res) => {
     });
   }
 };
-
 
 petController.getPetAppointments = async (req, res) => {
   const petId = req.params.id;
@@ -178,7 +181,4 @@ petController.getPetAppointments = async (req, res) => {
   }
 };
 
-
 module.exports = petController;
-
-
