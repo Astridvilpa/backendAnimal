@@ -183,37 +183,37 @@ userController.updateUserProfile = async (req, res) => {
 
 userController.getUserPets = async (req, res) => {
   try {
-    const userId = req.params.id;
+    // Obtener el ID del usuario desde el token (en lugar de los parámetros de la URL)
+    const userId = req.tokenData.userId;
 
+    // Buscar el usuario y sus mascotas
     const user = await User.findByPk(userId, {
       include: [
         {
           model: Pet,
-          attributes:{
-            exclude: ["createdAt", "updatedAt", "user_id"]
-          }
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "user_id"],
+          },
         },
       ],
-      
     });
 
     if (!user) {
       return res.status(404).json({
-        success: true,
+        success: false,
         message: "Usuario no encontrado",
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Mascota encontrada",
+      message: "Mascotas encontradas",
       data: user.Pets,
-    })
-
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error al recuperar la mascota",
+      message: "Error al recuperar las mascotas",
       error: error.message,
     });
   }
