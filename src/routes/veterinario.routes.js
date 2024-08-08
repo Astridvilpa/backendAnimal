@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const ctrl = require("../controllers/veterinarioController")
 const auth = require("../middlewares/auth")
-const authorize = require("../middlewares/authorize")
+const { authorize, allowUserOrAdmin } = require("../middlewares/authorize");
 
 // public
 router.get("/", ctrl.getAll );

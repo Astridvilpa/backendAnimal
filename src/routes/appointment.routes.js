@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const appointmentController = require("../controllers/appointmentController");
 const auth = require("../middlewares/auth")
-const authorize = require("../middlewares/authorize")
+const { authorize, allowUserOrAdmin } = require("../middlewares/authorize");
 
 // Rutas públicas
 router.post("/", auth, appointmentController.create);

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const ctrl = require("../controllers/userController")
 const auth = require("../middlewares/auth");
-const authorize = require("../middlewares/authorize")
+const { authorize, allowUserOrAdmin } = require("../middlewares/authorize");
 
 // user routes
 

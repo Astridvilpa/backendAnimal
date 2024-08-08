@@ -1,24 +1,17 @@
-const express = require('express')
-const router = express.Router()
-const ctrl = require("../controllers/petController")
-const auth = require("../middlewares/auth")
-const authorize = require("../middlewares/authorize")
+const express = require('express');
+const router = express.Router();
+const petController = require("../controllers/petController");
+const auth = require("../middlewares/auth");
+const { authorize, allowUserOrAdmin } = require("../middlewares/authorize");
 
+// Rutas públicas
+router.post("/", auth, allowUserOrAdmin(), petController.create);
+router.put("/:id", auth, allowUserOrAdmin(), petController.update);
+router.delete("/:id", auth, allowUserOrAdmin(), petController.delete);
 
-// public
-router.post("/",auth, ctrl.create);
-router.put("/:id", auth, ctrl.update );
-router.delete("/:id", auth, ctrl.delete);
+// Rutas protegidas
+router.get("/", auth, allowUserOrAdmin(), petController.getAll);
+router.get("/:id", auth, allowUserOrAdmin(), petController.getById);
+router.get("/:id/appointments", auth, allowUserOrAdmin(), petController.getPetAppointments);
 
-
-
-// protect
-
-router.get("/",auth, authorize("super_admin"), ctrl.getAll );
-router.get("/:id", auth, ctrl.getById);
-router.get("/:id/appointments", auth, ctrl.getPetAppointments);
-
-
-
-module.exports = router
-
+module.exports = router;

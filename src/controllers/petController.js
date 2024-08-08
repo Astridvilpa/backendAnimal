@@ -4,6 +4,13 @@ const { Appointment, Service, Pet, Veterinario, User, Role  } = require("../mode
 petController.create = async (req, res) => {
   const { name, type, user_id } = req.body;
 
+  if (!name || !type || !user_id) {
+    return res.status(400).json({
+      success: false,
+      message: "Faltan campos requeridos: name, type y user_id son necesarios",
+    });
+  }
+
   try {
     const pet = await Pet.create({ name, type, user_id });
     res.status(201).json({
@@ -114,6 +121,7 @@ petController.delete = async (req, res) => {
       message: "Mascota eliminada exitosamente",
     });
   } catch (error) {
+    console.error("Error al eliminar mascota:", error); // Agrega este console.log para detalles
     res.status(500).json({
       success: false,
       message: "Error al eliminar mascota",
