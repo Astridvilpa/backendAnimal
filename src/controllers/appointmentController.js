@@ -138,20 +138,44 @@ const getById = async (req, res) => {
 
 const update = async (req, res) => {
   const appointmentId = req.params.id;
-  const appointmentData = req.body;
+  const { type, date, service_id, pet_id, veterinario_id } = req.body;
 
   try {
-    await Appointment.update(appointmentData, {
-      where: {
-        id: appointmentId,
-      },
+    const appointment = await Appointment.findByPk(appointmentId);
+    if (!appointment) {
+      console.log(`Cita con ID ${appointmentId} no encontrada.`);
+      return res.status(404).json({
+        success: false,
+        message: "Cita no encontrada",
+      });
+    }
+
+    // Actualiza los campos necesarios
+    appointment.type = type || appointment.type;
+    appointment.date = date || appointment.date;
+    appointment.Service_id = service_id || appointment.Service_id;
+    appointment.Pet_id = pet_id || appointment.Pet_id;
+    appointment.Veterinario_id = veterinario_id || appointment.Veterinario_id;
+
+    // Guarda los cambios
+    await appointment.save();
+
+    // Obtén la cita actualizada
+    const updatedAppointment = await Appointment.findByPk(appointmentId, {
+      include: [
+        { model: Service, as: "service", attributes: ['name'] },
+        { model: Pet, as: "pet", attributes: ['name', 'type'] },
+        { model: Veterinario, as: "veterinario", attributes: ['name'] },
+        { model: User, as: "user", attributes: ['name', 'lastName'] }
+      ],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
-    console.log("Cita actualizada con datos:", appointmentData); // Log para verificar los datos de actualización
-
-    res.status(200).json({
+    console.log("Cita modificada exitosamente:", updatedAppointment);
+    return res.status(200).json({
       success: true,
       message: "Cita modificada exitosamente",
+      data: updatedAppointment,
     });
   } catch (error) {
     console.error("Error updating appointment:", error);
