@@ -3,7 +3,7 @@ const { Appointment, Service, Pet, Veterinario, User, Role  } = require("../mode
 
 petController.create = async (req, res) => {
   const { name, type } = req.body;
-  const user_id = req.tokenData.userId; // Usar el user_id del token
+  const user_id = req.tokenData.userId; 
 
   if (!name || !type) {
     return res.status(400).json({

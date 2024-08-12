@@ -183,10 +183,10 @@ userController.updateUserProfile = async (req, res) => {
 
 userController.getUserPets = async (req, res) => {
   try {
-    // Obtener el ID del usuario desde el token (en lugar de los parámetros de la URL)
+   
     const userId = req.tokenData.userId;
 
-    // Buscar el usuario y sus mascotas
+    
     const user = await User.findByPk(userId, {
       include: [
         {

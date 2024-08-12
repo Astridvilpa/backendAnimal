@@ -16,13 +16,13 @@ const createAppointment = async (req, res) => {
     const appointment = await Appointment.create({ 
       type, 
       date, 
-      Service_id: service_id,  // Asegúrate de usar el nombre correcto del campo
-      Pet_id: pet_id,           // Asegúrate de usar el nombre correcto del campo
-      Veterinario_id: veterinario_id,  // Asegúrate de usar el nombre correcto del campo
+      Service_id: service_id,  
+      Pet_id: pet_id,           
+      Veterinario_id: veterinario_id,  
       user_id 
     });
 
-    console.log('Cita creada:', appointment); // Log para verificar la cita creada
+    console.log('Cita creada:', appointment); 
 
     res.status(201).json({
       success: true,
@@ -61,13 +61,13 @@ const getAll = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ['name', 'lastName'], // Corrige los nombres de las columnas
+          attributes: ['name', 'lastName'], 
         }
       ],
       attributes: { exclude: ["createdAt", "updatedAt", "service_id", "pet_id", "veterinario_id", "user_id"] },
     });
     
-    console.log("Appointments retrieved:", appointments); // Log para verificar los datos recuperados
+    console.log("Appointments retrieved:", appointments); 
 
     res.status(200).json({
       success: true,
@@ -108,13 +108,13 @@ const getById = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ['name', 'lastName'], // Corrige los nombres de las columnas
+          attributes: ['name', 'lastName'], 
         }
       ],
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
-    console.log("Appointment retrieved by ID:", appointment); // Log para verificar los datos recuperados por ID
+    console.log("Appointment retrieved by ID:", appointment); 
 
     if (!appointment) {
       return res.status(404).json({
@@ -150,17 +150,17 @@ const update = async (req, res) => {
       });
     }
 
-    // Actualiza los campos necesarios
+    
     appointment.type = type || appointment.type;
     appointment.date = date || appointment.date;
     appointment.Service_id = service_id || appointment.Service_id;
     appointment.Pet_id = pet_id || appointment.Pet_id;
     appointment.Veterinario_id = veterinario_id || appointment.Veterinario_id;
 
-    // Guarda los cambios
+    
     await appointment.save();
 
-    // Obtén la cita actualizada
+    
     const updatedAppointment = await Appointment.findByPk(appointmentId, {
       include: [
         { model: Service, as: "service", attributes: ['name'] },
@@ -197,7 +197,7 @@ const deleteAppointment = async (req, res) => {
       },
     });
 
-    console.log("Resultado de eliminación:", deleteResult); // Log para verificar el resultado de la eliminación
+    console.log("Resultado de eliminación:", deleteResult);
 
     if (deleteResult === 0) {
       res.status(404).json({
@@ -252,7 +252,7 @@ const getUserAppointments = async (req, res) => {
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
-    console.log("User appointments retrieved:", appointments); // Verifica que los datos relacionados estén presentes
+    console.log("User appointments retrieved:", appointments); 
 
     res.status(200).json({
       success: true,

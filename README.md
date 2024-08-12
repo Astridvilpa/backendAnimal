@@ -27,7 +27,7 @@ El departamento de producto nos ha encomendado desarrollar el backend correspond
 ***
 ## Estructura y diseño de base de datos
 
-<image src="./img/base.png" alt="Tattoo Studio">
+<image src="./img/base.png" alt="base">
 
 ***
 
@@ -46,7 +46,7 @@ El departamento de producto nos ha encomendado desarrollar el backend correspond
 
   ###  Enpoints:
 
-  <image src="./img/end.png" alt="Tattoo Studio">
+  <image src="./img/end.png" alt="end">
 
 
  ***

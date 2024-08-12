@@ -22,7 +22,7 @@ authController.register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role_id: 2, // Asegúrate de que este campo está correcto
+      role_id: 2, 
     });
 
     res.status(200).json({
