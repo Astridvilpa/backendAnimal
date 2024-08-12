@@ -13,7 +13,17 @@ const createAppointment = async (req, res) => {
       });
     }
 
-    const appointment = await Appointment.create({ type, date, service_id, pet_id, veterinario_id, user_id });
+    const appointment = await Appointment.create({ 
+      type, 
+      date, 
+      Service_id: service_id,  // Asegúrate de usar el nombre correcto del campo
+      Pet_id: pet_id,           // Asegúrate de usar el nombre correcto del campo
+      Veterinario_id: veterinario_id,  // Asegúrate de usar el nombre correcto del campo
+      user_id 
+    });
+
+    console.log('Cita creada:', appointment); // Log para verificar la cita creada
+
     res.status(201).json({
       success: true,
       message: 'Cita creada exitosamente',
@@ -54,9 +64,11 @@ const getAll = async (req, res) => {
           attributes: ['name', 'lastName'], // Corrige los nombres de las columnas
         }
       ],
-      attributes: { exclude: ["createdAt", "updatedAt", "Service_id", "Pet_id", "Veterinario_id", "user_id"] },
+      attributes: { exclude: ["createdAt", "updatedAt", "service_id", "pet_id", "veterinario_id", "user_id"] },
     });
-    console.log("Appointments retrieved:", appointments);
+    
+    console.log("Appointments retrieved:", appointments); // Log para verificar los datos recuperados
+
     res.status(200).json({
       success: true,
       message: "Citas recuperadas exitosamente",
@@ -102,6 +114,8 @@ const getById = async (req, res) => {
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
+    console.log("Appointment retrieved by ID:", appointment); // Log para verificar los datos recuperados por ID
+
     if (!appointment) {
       return res.status(404).json({
         success: false,
@@ -133,6 +147,8 @@ const update = async (req, res) => {
       },
     });
 
+    console.log("Cita actualizada con datos:", appointmentData); // Log para verificar los datos de actualización
+
     res.status(200).json({
       success: true,
       message: "Cita modificada exitosamente",
@@ -156,6 +172,8 @@ const deleteAppointment = async (req, res) => {
         id: appointmentId,
       },
     });
+
+    console.log("Resultado de eliminación:", deleteResult); // Log para verificar el resultado de la eliminación
 
     if (deleteResult === 0) {
       res.status(404).json({
@@ -204,13 +222,14 @@ const getUserAppointments = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ['name', 'lastName'], // Corrige los nombres de las columnas
+          attributes: ['name', 'lastName'], 
         }
       ],
-      attributes: { exclude: ["createdAt", "updatedAt", "Service_id", "Pet_id", "Veterinario_id", "user_id"] },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
-    console.log("User appointments retrieved:", appointments);
+    console.log("User appointments retrieved:", appointments); // Verifica que los datos relacionados estén presentes
+
     res.status(200).json({
       success: true,
       message: "Citas del usuario recuperadas exitosamente",
